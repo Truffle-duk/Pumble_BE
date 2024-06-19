@@ -5,6 +5,8 @@ import methodOverride from "method-override"
 import {BaseError} from "./config/error.js"
 import {status} from "./config/responseStatus.js"
 import {response} from "./config/response.js"
+import {specs} from "./config/swaggerConfig.js";
+import SwaggerUi from "swagger-ui-express"
 
 const app = express()
 const port = 8080
@@ -18,6 +20,8 @@ app.use(express.urlencoded({extended: true}));
 app.use(methodOverride());
 
 app.use(cors());
+
+app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(specs))
 
 app.get('/', function (req, res) {
     res.send('Hello World')

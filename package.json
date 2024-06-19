@@ -1,7 +1,7 @@
 {
   "name": "pumble_be",
   "version": "1.0.0",
-  "description": "블록체인 기반 공금관리 모임 커뮤티니 Dapp Pumble Backend",
+  "description": "블록체인 기반 공금관리 모임 커뮤니티 DApp Pumble Backend",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

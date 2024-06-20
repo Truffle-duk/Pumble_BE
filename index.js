@@ -7,6 +7,7 @@ import {status} from "./config/responseStatus.js"
 import {response} from "./config/response.js"
 import {specs} from "./config/swaggerConfig.js";
 import SwaggerUi from "swagger-ui-express"
+import {eventRouter} from "./src/event/event.route.js";
 
 const app = express()
 const port = 8080
@@ -26,6 +27,8 @@ app.use('/api-docs', SwaggerUi.serve, SwaggerUi.setup(specs))
 app.get('/', function (req, res) {
     res.send('Hello World')
 })
+
+app.use(eventRouter)
 
 app.use((req, res, next) => {
     const err = new BaseError(status.NOT_FOUND);

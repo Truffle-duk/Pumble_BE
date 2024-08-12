@@ -27,7 +27,9 @@
     "jsonwebtoken": "^9.0.2",
     "method-override": "^3.0.0",
     "mysql2": "^3.9.3",
-    "web3": "^4.7.0"
+    "node-cache": "^5.1.2",
+    "nodemailer": "^6.9.14",
+    "web3": "4.8.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.24.1",

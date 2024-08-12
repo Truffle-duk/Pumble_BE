@@ -1,5 +1,5 @@
 {
-  "AWSEBDockerrunVersion": "1",
+  "AWSEBDockerrunVersion": 1,
   "Image": {
     "Name": "jayde1012/pumble:latest",
     "Update": true

@@ -7,6 +7,7 @@ import {status} from "./config/responseStatus.js"
 import {response} from "./config/response.js"
 import {specs} from "./config/swaggerConfig.js";
 import SwaggerUi from "swagger-ui-express"
+import {authRouter} from "./src/auth/auth.route.js";
 
 const app = express()
 const port = 8080
@@ -27,6 +28,8 @@ app.get('/', function (req, res) {
     res.send('Hello World')
 })
 
+app.use(authRouter)
+
 app.use((req, res, next) => {
     const err = new BaseError(status.NOT_FOUND);
     next(err);
@@ -38,7 +41,7 @@ app.use((err, req, res, next) => {
     // 개발환경이면 에러를 출력하고 아니면 출력하지 않기
     res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
     res.status(err.data.status).send(response(err.data));
-});
+})
 
 
 app.listen(port, () => {

@@ -1,0 +1,58 @@
+name: Node.js Dev CI/CD
+
+on:
+  pull_request:      # pull request -> merge 가 되었을 때 Github Action 실행
+    types: [ closed ]
+  workflow_dispatch: # 수동 실행도 가능
+
+jobs:
+  build-and-deploy:
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'dev' # dev에 merge 됐을 때
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Login to Docker hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Docker build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/pumble:latest
+
+      # 현재 시간 얻기 (Build 시점의 시간 얻기)
+      - name: Get current time
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYY-MM-DDTHH-mm-ss
+          utcOffset: "+09:00" # 한국 시간 고려
+
+      # 현재 시간 출력 (위에서 얻은 build 시점의 시간 보여주기)
+      - name: Show Current Time
+        run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}"
+        shell: bash
+
+      - name: Beanstalk Deploy
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{secrets.AWS_ACTION_ACCESS_KEY_ID}}
+          aws_secret_key: ${{secrets.AWS_ACTION_SECRET_ACCESS_KEY}}
+          application_name: Pumble-develop
+          environment_name: Pumble-develop-env
+          version_label: github-action-${{ steps.current-time.outputs.formattedTime }}  # version_label은 이전에 배포한 label과 중복되면 안됨!
+          use_existing_version_if_available: true
+          region: ap-northeast-2
+          deployment_package: Dockerrun.aws.json
+          wait_for_deployment: false  # 바로 Beanstalk으로 넘어갈 수 있도록 함
+
+      # 그냥 다 했다고 출력하기
+      - name: Deployed!
+        run: echo App deployed to ELB

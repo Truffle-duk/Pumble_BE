@@ -1,5 +1,6 @@
 import {response} from "../../config/response.js";
 import {status} from "../../config/responseStatus.js";
+import {redisClient} from "../../config/redisConfig.js"
 import {
     checkEmailDuplicateService,
     sendVerificationCodeService, signUpService,
@@ -18,4 +19,10 @@ export const verifyEmail = async (req, res, next) => {
 
 export const signUp = async (req, res, next) => {
     res.send(response(status.SUCCESS, await signUpService(req.body)))
+}
+
+export const test = async (req, res, next) => {
+    await redisClient.set("test", "tset")
+    const value = await redisClient.get("test")
+    res.send(response(status.SUCCESS, value))
 }

@@ -1,6 +1,6 @@
 import express from "express";
 import asyncHandler from "express-async-handler"
-import {checkEmailDuplicate, sendVerificationCode, signUp, verifyEmail} from "./auth.controller.js";
+import {checkEmailDuplicate, sendVerificationCode, signUp, test, verifyEmail} from "./auth.controller.js";
 
 export const authRouter = express.Router()
 
@@ -8,3 +8,5 @@ authRouter.post('/api/auth/verifyDuplicate', asyncHandler(await checkEmailDuplic
 authRouter.post('/api/auth/sendCode', asyncHandler(await sendVerificationCode)) //이메일 인증
 authRouter.post('/api/auth/verifyEmail', asyncHandler(await verifyEmail)) //인증 코드
 authRouter.post('/api/auth/signup', asyncHandler(await signUp)) //로컬 회원가입
+
+authRouter.get('/test', asyncHandler(await test))

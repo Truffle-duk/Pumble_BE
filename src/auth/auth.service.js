@@ -1,9 +1,12 @@
 import {BaseError} from "../../config/error.js";
 import {status} from "../../config/responseStatus.js";
-import {createUser, retrieveEmailExist} from "./auth.model.js";
+import {createUser, retrieveEmailExist, retrievePasswordByEmail, retrieveUserByEmail} from "./auth.model.js";
 import {smtpTransport} from "../../config/smtpConfig.js";
 import crypto from "crypto"
 import NodeCache from "node-cache";
+import {redisClient} from "../../config/redisConfig.js"
+import customJWT from "../middleware/jwtModules.js";
+
 const cache = new NodeCache()
 
 export const checkEmailDuplicateService = async (body) => {
@@ -84,4 +87,24 @@ export const signUpService = async (body) => {
     } else {
         throw new BaseError(status.INTERNAL_SERVER_ERROR)
     }
+}
+
+export const localSignIn = async (body) => {
+    const exUser = await retrieveUserByEmail(body.email)
+    if (!exUser) {
+        throw new BaseError(status.USER_NOT_EXIST)
+    }
+
+    const realPasswordObj = await retrievePasswordByEmail(body.email)
+    const realPassword = realPasswordObj.password
+    const inputPassword = crypto.createHash("sha512").update(body.password).digest("base64")
+    if (inputPassword !== realPassword) {
+        throw new BaseError(status.WRONG_PASSWORD)
+    }
+
+    const accessToken = await customJWT.accessSign(exUser)
+    const refreshToken = await customJWT.refreshSign()
+    redisClient.set(`${exUser.id}`, `${refreshToken}`, { EX: 30 * 24 * 60 * 60})
+
+    return {accessToken: accessToken, refreshToken: refreshToken}
 }

@@ -4,15 +4,12 @@ import {redisClient} from "../../config/redisConfig.js"
 dotenv.config();
 const secret = process.env.JWT_SECRET;
 
-module.exports = {
+const customJWT = {
     accessSign: async (user) => { //accessToken 발급
         const payload = {
-            id: user.id,
-            nickname: user.nickname,
-            email: user.email,
-            provider: user.provider
+            id: user.user_id,
         };
-        return jwt.sign(payload, secret, {algorithm: 'HS256', expiresIn: '7d'});
+        return jwt.sign(payload, secret, {algorithm: 'HS256', expiresIn: '3h'});
     },
 
     accessVerify: async (token) => {
@@ -72,3 +69,5 @@ module.exports = {
         }
     }
 }
+
+export default customJWT

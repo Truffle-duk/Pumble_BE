@@ -1,12 +1,20 @@
 import {BaseError} from "../../config/error.js";
 import {status} from "../../config/responseStatus.js";
-import {createUser, retrieveEmailExist, retrievePasswordByEmail, retrieveUserByEmail} from "./auth.model.js";
+import {
+    createUser,
+    retrieveEmailExist,
+    retrievePasswordByEmail,
+    retrieveUserByEmail,
+    retrieveUserById
+} from "./auth.model.js";
 import {smtpTransport} from "../../config/smtpConfig.js";
 import crypto from "crypto"
 import NodeCache from "node-cache";
 import {redisClient} from "../../config/redisConfig.js"
 import customJWT from "../middleware/jwtModules.js";
-
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config()
 const cache = new NodeCache()
 
 export const checkEmailDuplicateService = async (body) => {
@@ -104,7 +112,44 @@ export const localSignIn = async (body) => {
 
     const accessToken = await customJWT.accessSign(exUser)
     const refreshToken = await customJWT.refreshSign()
-    redisClient.set(`${exUser.id}`, `${refreshToken}`, { EX: 30 * 24 * 60 * 60})
+
+    const exToken = await redisClient.get(`${exUser.user_id}`)
+    if (exToken !== null){
+        await redisClient.del(`${exUser.user_id}`)
+    }
+    await redisClient.set(`${exUser.user_id}`, `${refreshToken}`)
 
     return {accessToken: accessToken, refreshToken: refreshToken}
+}
+
+export const tokenRefreshS = async (header, body) => {
+    const inputRTK = body.refreshToken
+
+    let decodedToken = null
+    if(!header.authorization) {
+        throw new BaseError(status.AUTHORIZATION_NOT_EXIST)
+    } else {
+        const token = header.authorization.split('Bearer ')[1]
+        if (!token) {
+            throw new BaseError(status.TOKEN_NOT_EXIST)
+        }
+        decodedToken = await jwt.decode(token, process.env.JWT_SECRET)
+    }
+
+    if (decodedToken !== null) {
+        const userId = decodedToken.id
+        const decode = await customJWT.refreshVerify(inputRTK, userId)
+        if (decode.valid) {
+            const user = await retrieveUserById(userId)
+            const accessToken = await customJWT.accessSign(user)
+            const newRTK = await customJWT.refreshSign()
+
+            await redisClient.del(`${user.user_id}`)
+            await redisClient.set(`${user.user_id}`, `${newRTK}`)
+
+            return {accessToken: accessToken, refreshToken: newRTK}
+        }
+    } else {
+        throw new BaseError(status.INVALID_TOKEN)
+    }
 }

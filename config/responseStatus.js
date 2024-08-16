@@ -18,6 +18,7 @@ export const status = {
     // file
     WRONG_EXTENSION: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "FILE4001", "message": "잘못된 확장자입니다."},
     // JWT
+    AUTHORIZATION_NOT_EXIST: {status: StatusCodes.UNAUTHORIZED, "isSuccess": false, "code": "TOKEN4001", "message": "토큰이 존재하지 않습니다."},
     TOKEN_NOT_EXIST: {status: StatusCodes.UNAUTHORIZED, "isSuccess": false, "code": "TOKEN4001", "message": "토큰이 존재하지 않습니다."},
     EXPIRED_TOKEN: {status: StatusCodes.INSUFFICIENT_SPACE_ON_RESOURCE, "isSuccess": false, "code": "TOKEN4002", "message": "만료된 토큰입니다."},
     INVALID_TOKEN: {status: StatusCodes.UNAUTHORIZED, "isSuccess": false, "code": "TOKEN4003", "message": "잘못된 접근입니다."},

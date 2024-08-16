@@ -19,9 +19,6 @@ const customJWT = {
             return {
                 valid: true,
                 id: decode.id,
-                nickname: decode.nickname,
-                email: decode.email,
-                provider: decode.provider
             }
         } catch (err) {
             return {
@@ -33,7 +30,7 @@ const customJWT = {
     },
 
     refreshSign: async () => { //refreshToken 발급
-        return jwt.sign({}, secret, {algorithm: 'HS256', expiresIn: '30d'});
+        return jwt.sign({}, secret, {algorithm: 'HS256', issuer: 'truffle'});
     },
 
     refreshVerify: async (token, userId) => { //DB에 있는 값과 같은지 확인
@@ -45,7 +42,7 @@ const customJWT = {
                     decode = jwt.verify(token, secret);
                     return {
                         valid: true,
-                        expiredIn: decode.exp //남은 시간
+                        issuer: decode.iss
                     }
                 } catch (err) {
                     return {

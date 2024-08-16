@@ -3,7 +3,7 @@ import {status} from "../../config/responseStatus.js";
 import {redisClient} from "../../config/redisConfig.js"
 import {
     checkEmailDuplicateService, localSignIn,
-    sendVerificationCodeService, signUpService,
+    sendVerificationCodeService, signUpService, tokenRefreshS,
     verifyEmailService
 } from "./auth.service.js";
 import {BaseError} from "../../config/error.js";
@@ -28,6 +28,10 @@ export const signIn = async (req, res, next) => {
     } else {
         throw new BaseError(status.WRONG_PATH);
     }
+}
+
+export const tokenRefresh = async (req, res, next) => {
+    res.send(response(status.SUCCESS, await tokenRefreshS(req.headers, req.body)))
 }
 
 export const test = async (req, res, next) => {

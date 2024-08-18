@@ -1,7 +1,7 @@
 import {pool} from "../../config/database.js";
 import {BaseError} from "../../config/error.js";
 import {status} from "../../config/responseStatus.js";
-import {updateUserNameSQL, selectUserById} from "./user.sql.js";
+import {updateUserNameSQL, selectUserById, selectUserNameById} from "./user.sql.js";
 
 export const updateUserName = async (params) => {
     try{
@@ -12,6 +12,22 @@ export const updateUserName = async (params) => {
         conn.release();
 
         return result;
+
+    } catch (err) {
+        console.log(err)
+        throw new BaseError(status.INTERNAL_SERVER_ERROR);
+    }
+}
+
+export const retrieveUserNameById = async (userId) => {
+    try{
+        const conn = await pool.getConnection();
+
+        const [result] = await pool.query(selectUserNameById, userId);
+
+        conn.release();
+
+        return result[0];
 
     } catch (err) {
         console.log(err)

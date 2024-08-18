@@ -65,3 +65,16 @@ export const getImageURL = (directory, filename) => {
     const region = process.env.AWS_S3_REGION
     return `https://${bucket}.s3.${region}.amazonaws.com/${filename}`
 }
+
+// 함수 내 사용 시
+export const uploadImage = (req, res) => {
+    return new Promise((resolve, reject) => {
+        imageUploader.single('image')(req, res, (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(req.s3ObjectUrl);
+            }
+        });
+    });
+};

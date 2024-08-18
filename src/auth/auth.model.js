@@ -27,7 +27,7 @@ export const createUser = async (params) => {
 
         conn.release();
 
-        return result[0];
+        return result;
 
     } catch (err) {
         console.log(err)

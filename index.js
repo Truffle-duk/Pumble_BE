@@ -8,6 +8,7 @@ import {response} from "./config/response.js"
 import {specs} from "./config/swaggerConfig.js";
 import SwaggerUi from "swagger-ui-express"
 import {authRouter} from "./src/auth/auth.route.js";
+import {userRouter} from "./src/user/user.route.js";
 
 const app = express()
 const port = 8080
@@ -29,6 +30,7 @@ app.get('/', function (req, res) {
 })
 
 app.use(authRouter)
+app.use(userRouter)
 
 app.use((req, res, next) => {
     const err = new BaseError(status.NOT_FOUND);

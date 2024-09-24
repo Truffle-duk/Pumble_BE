@@ -2,9 +2,10 @@ import customJWT from "./jwtModules.js";
 import {BaseError} from "../../config/error.js";
 import {status} from "../../config/responseStatus.js";
 import dotenv from "dotenv";
+import asyncHandler from 'express-async-handler';
 dotenv.config()
 
-const authChecker = async (req, res, next) => {
+const authChecker = asyncHandler(async (req, res, next) => {
     if (req.headers.authorization) {
         const token = req.headers.authorization.split('Bearer ')[1];
         if (!token) //토큰 없음
@@ -38,6 +39,6 @@ const authChecker = async (req, res, next) => {
         console.log('jwtMiddleware - header.Authorization not exist');
         throw new BaseError(status.AUTHORIZATION_NOT_EXIST)
     }
-}
+})
 
 export default authChecker

@@ -148,7 +148,7 @@ export const retrievePostList = async (req, res, next) => {
         }
     })
 
-    res.send(response(status.SUCCESS, {postList: responseDTO, isLast: retrievePostListResult.isLast}))
+    res.send(response(status.SUCCESS, {postList: responseDTO, currentPage: req.query.page, isLast: retrievePostListResult.isLast}))
 }
 
 export const retrieveNoticeList = async (req, res, next) => {
@@ -171,5 +171,5 @@ export const retrieveNoticeList = async (req, res, next) => {
         }
     })
 
-    res.send(response(status.SUCCESS, {noticeList: responseDTO, isLast: retrieveNoticeListResult.isLast}))
+    res.send(response(status.SUCCESS, {noticeList: responseDTO, currentPage: req.query.page, isLast: retrieveNoticeListResult.isLast}))
 }

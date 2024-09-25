@@ -166,7 +166,7 @@ export const retrieveNoticeList = async (req, res, next) => {
             },
             writer: {
                 nickname: notice.nickname,
-                isWriter: notice.group_user_id === req.groupUserId
+                hasAuthority: req.groupUserRole !== 'member'
             }
         }
     })

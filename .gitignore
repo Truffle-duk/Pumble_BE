@@ -1,3 +1,13 @@
-.idea/*
+# 개인화된 파일들은 무시
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+
+# 모듈 관련 파일은 포함 (중요)
+!.idea/misc.xml
+!.idea/modules.xml
+!.idea/libraries/
 node_modules/*
 .env

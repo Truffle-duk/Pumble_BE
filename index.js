@@ -7,6 +7,7 @@ import {status} from "./config/responseStatus.js"
 import {response} from "./config/response.js"
 import {specs} from "./config/swaggerConfig.js";
 import SwaggerUi from "swagger-ui-express"
+import {storeRouter} from "./src/store/store.route.js";
 import {authRouter} from "./src/auth/auth.route.js";
 import {userRouter} from "./src/user/user.route.js";
 import {communityRouter} from "./src/community/community.route.js";
@@ -30,6 +31,7 @@ app.get('/', function (req, res) {
     res.send('Hello World')
 })
 
+app.use(storeRouter)
 app.use(authRouter)
 app.use(userRouter)
 app.use(communityRouter)

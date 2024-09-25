@@ -24,11 +24,11 @@ export const addItem = async (data) => {
     }
 }
 
-export const retrieveRecentItems = async (data) => {
+export const retrieveRecentItems = async (groupId) => {
     try{
         const conn = await pool.getConnection();
 
-        const [result] = await pool.query(select4ItemsRecent, data.groupId);
+        const [result] = await pool.query(select4ItemsRecent, groupId);
 
         conn.release();
 
@@ -39,11 +39,11 @@ export const retrieveRecentItems = async (data) => {
     }
 }
 
-export const retrieveItemsByCategory = async (data) => {
+export const retrieveItemsByCategory = async (groupId, category) => {
     try{
         const conn = await pool.getConnection();
 
-        const [result] = await pool.query(selectItemsByCategory, [data.groupId, data.category]);
+        const [result] = await pool.query(selectItemsByCategory, [groupId, category]);
 
         conn.release();
 
@@ -54,11 +54,11 @@ export const retrieveItemsByCategory = async (data) => {
     }
 }
 
-export const retrieveItemDetails = async (data) => {
+export const retrieveItemDetails = async (groupId, itemId) => {
     try{
         const conn = await pool.getConnection();
 
-        const [result] = await pool.query(selectItemDetails, data.id);
+        const [result] = await pool.query(selectItemDetails, [groupId, itemId]);
 
         conn.release();
 

@@ -9,13 +9,13 @@ import {itemResponseDTO, itemsResponseDTO} from "./store.dto.js";
 
 dotenv.config()
 
-export const addNewItem = async (body) => {
+export const addNewItem = async (groupId, body) => {
     const params = [
         body.name,
         body.price,
         body.category,
         body.image,
-        body.groupId,
+        groupId
     ]
 
     const insertNewItemResult = await addItem(params)
@@ -23,20 +23,20 @@ export const addNewItem = async (body) => {
     return {itemId: insertNewItemResult}
 }
 
-export const getRecentItems = async (body) => {
-    const getRecentItemsResult = await retrieveRecentItems(body)
+export const getRecentItems = async (groupId) => {
+    const getRecentItemsResult = await retrieveRecentItems(groupId)
 
     return itemsResponseDTO(getRecentItemsResult)
 }
 
-export const getItemsByCategory = async (body) => {
-    const getItemsByCategoryResult = await retrieveItemsByCategory(body)
+export const getItemsByCategory = async (groupId, category) => {
+    const getItemsByCategoryResult = await retrieveItemsByCategory(groupId, category)
 
     return itemsResponseDTO(getItemsByCategoryResult)
 }
 
-export const getItemDetail = async (body) => {
-    const getItemResult = await retrieveItemDetails(body)
+export const getItemDetail = async (groupId, itemId) => {
+    const getItemResult = await retrieveItemDetails(groupId, itemId)
 
     return itemResponseDTO(getItemResult)
 }

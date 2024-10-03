@@ -24,11 +24,12 @@ export const checkEmailDuplicateService = async (body) => {
     }
 
     const isDuplicate = await retrieveEmailExist(email)
+    let isDuplicated = false
     if (isDuplicate.isExistEmail === 1) {
-        throw new BaseError(status.DUPLICATE_EMAIL)
+        isDuplicated = true
     }
 
-    return "사용 가능한 메일입니다."
+    return { isDuplicated: isDuplicated }
 }
 
 export const sendVerificationCodeService = async (body) => {
@@ -69,13 +70,16 @@ export const sendVerificationCodeService = async (body) => {
 
 export const verifyEmailService = async (body) => {
     const realCode = cache.get(`Code-${body.email}`);
+    let isMatched = false
     if (realCode === undefined) {
         throw new BaseError(status.CODE_EXPIRE)
     } else if (body.code !== realCode) {
         cache.del(`Code-${body.email}`)
         throw new BaseError(status.CODE_NOT_MATCH)
+    } else {
+        isMatched = true
     }
-    return "이메일 인증이 완료되었습니다."
+    return {isMatched: isMatched}
 }
 
 export const signUpService = async (body) => {

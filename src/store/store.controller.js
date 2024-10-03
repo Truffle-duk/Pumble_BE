@@ -13,7 +13,7 @@ export const itemCreate = async (req, res, next) => {
         throw new BaseError(status.NO_AUTHORITY)
     }
 
-    res.send(response(status.SUCCESS, await addNewItem(req.groupId, req.body)))
+    res.send(response(status.SUCCESS, await addNewItem(req.groupId, req.body, req.s3ObjectUrl)))
 }
 export const selectRecentItems = async (req, res, next) => {
     res.send(response(status.SUCCESS, await getRecentItems(req.groupId)))

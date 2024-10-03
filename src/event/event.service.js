@@ -4,7 +4,12 @@ import {
     addAttendee,
     addEvent,
     checkAttendeeExist,
-    retrieveAllEvents, retrieveMonthlyEvents, retrieveRecentlyEndedAndUpcoming, retrieveTargetEvent
+    retrieveAllEvents,
+    retrieveMonthlyEvents,
+    retrieveRecentlyEndedAndUpcoming,
+    retrieveTargetEvent,
+    retrieveTokenNum,
+    updateUserToken
 } from "./event.model.js";
 import {eventResponseDTO, lastAndNextResponseDTO, monthlyEventResponseDTO} from "./event.dto.js";
 import {ethers} from "ethers";
@@ -14,9 +19,9 @@ dotenv.config()
 
 //관리자 페이지 구현 시 삭제
 const provider = new ethers.JsonRpcProvider('http://127.0.0.1:7545')
-const privateKey = process.env.MY_PRIVATE_KEY;
+const privateKey = "0xfe6f622f37ad5ed4d3da49682069f27976afe19d9b53b98189a16f74ee3b151b";
 const wallet = new ethers.Wallet(privateKey, provider)
-const eventContractAddress = process.env.EVENT_CONTRACT_ADDRESS
+const eventContractAddress = "0x619e6e3BB15FEA84fA6ADCF86E834538906F3259"
 const eventContractABI = ["function createEvent(uint256 _eventId, uint256 _maxPpl, uint256 _reward)"]
 const eventContract = new ethers.Contract(eventContractAddress, eventContractABI, wallet)
 
@@ -36,7 +41,7 @@ const createEventBlockchain = async (eventId, maxPeople, reward) => {
 }
 
 
-export const createEvent = async (body) => {
+export const createEvent = async (groupId, body) => {
     const params = [
         body.title,
         body.description,
@@ -46,7 +51,7 @@ export const createEvent = async (body) => {
         body.maxPeople,
         body.reward,
         body.code,
-        body.groupId
+        groupId
     ]
 
     const insertNewEventResult = await addEvent(params)
@@ -56,12 +61,12 @@ export const createEvent = async (body) => {
     return {eventId: insertNewEventResult}
 }
 
-export const joinEvent = async (eventId, body) => {
+export const joinEvent = async (gUserId, eventId, body) => {
     //비교할 이벤트 가져오기
     const targetEvent = await retrieveTargetEvent(eventId)
 
     //중복 참여 확인
-    const checkDuplicate = await checkAttendeeExist(eventId, body.groupUserId)
+    const checkDuplicate = await checkAttendeeExist(eventId, gUserId)
     if (checkDuplicate === 1) {
         throw new BaseError(status.ALREADY_ATTEND)
     }
@@ -74,9 +79,17 @@ export const joinEvent = async (eventId, body) => {
     }
 
     //참여 신청
-    const insertNewAttendee = await addAttendee(eventId, body.groupUserId)
-
-    return {attendeeId: insertNewAttendee}
+    const insertNewAttendee = await addAttendee(eventId, gUserId)
+    if (insertNewAttendee && insertNewAttendee.affectedRows === 1) {
+        const updateTokenResult = await checkAttendService(eventId, gUserId)
+        if (updateTokenResult.updatedAt) {
+            return {attendeeId: insertNewAttendee.insertId}
+        } else {
+            throw new BaseError(status.INTERNAL_SERVER_ERROR)
+        }
+    } else {
+        throw new BaseError(status.INTERNAL_SERVER_ERROR)
+    }
 }
 
 export const getAllEvents = async (groupId) => {
@@ -85,15 +98,33 @@ export const getAllEvents = async (groupId) => {
     return eventResponseDTO(getAllEventsResult)
 }
 
-export const getMonthlyEvents = async (body) => {
+export const getMonthlyEvents = async (groupId, gUserId) => {
     const month = new Date().getMonth()+1
-    const getMonthlyEventsResult = await retrieveMonthlyEvents(body, month)
+    const getMonthlyEventsResult = await retrieveMonthlyEvents(groupId, gUserId, month)
 
     return monthlyEventResponseDTO(getMonthlyEventsResult)
 }
 
-export const getRecentlyEndAndUpcoming = async (body) => {
-    const getRecentlyEndedEvent = await retrieveRecentlyEndedAndUpcoming(body)
+export const getRecentlyEndAndUpcoming = async (groupId) => {
+    const getRecentlyEndedEvent = await retrieveRecentlyEndedAndUpcoming(groupId)
 
     return lastAndNextResponseDTO(getRecentlyEndedEvent)
+}
+
+const checkAttendService = async (eventId, gUserId) => {
+    // 1. 지급할 토큰 조회
+    const attendEvent = await retrieveTargetEvent(eventId)
+    const reward = attendEvent.num_of_token
+
+    // 2. 유저 보유 토큰 조회
+    const usersToken = await retrieveTokenNum(gUserId)
+
+    // 3. 보유 토큰 갱신
+    const updateTokenResult = await updateUserToken(usersToken + reward, gUserId)
+
+    if (updateTokenResult && updateTokenResult.affectedRows === 1) {
+        return {updatedAt: new Date()}
+    } else {
+        throw new BaseError(status.INTERNAL_SERVER_ERROR)
+    }
 }

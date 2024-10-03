@@ -9,7 +9,7 @@ import {
     insertAttendee,
     checkDuplicateAttendee,
     updateAttendeeNum,
-    selectTargetEvent
+    selectTargetEvent, selectTokensByGroupUserId, updateAttendeeToken
 } from "./event.sql.js";
 
 export const addEvent = async (data) => {
@@ -51,7 +51,7 @@ export const addAttendee = async (eventId, groupUserId) => {
 
         conn.release();
 
-        return result[0].insertId
+        return result[0]
 
     } catch (err) {
         throw new BaseError(status.DB_ERROR);
@@ -88,11 +88,11 @@ export const retrieveAllEvents = async (groupId) => {
     }
 }
 
-export const retrieveMonthlyEvents = async (body, month) => {
+export const retrieveMonthlyEvents = async (groupId, groupUserId, month) => {
     try{
         const conn = await pool.getConnection();
 
-        const [result] = await pool.query(selectMonthlyEvents, [body.groupId, month, month, body.groupUserId]);
+        const [result] = await pool.query(selectMonthlyEvents, [groupId, month, month, groupUserId]);
 
         conn.release();
 
@@ -103,11 +103,41 @@ export const retrieveMonthlyEvents = async (body, month) => {
     }
 }
 
-export const retrieveRecentlyEndedAndUpcoming = async (body) => {
+export const retrieveRecentlyEndedAndUpcoming = async (groupId) => {
     try{
         const conn = await pool.getConnection();
 
-        const [result] = await pool.query(selectRecentlyEndAndUpcomingEvent, [body.groupId, body.groupId]);
+        const [result] = await pool.query(selectRecentlyEndAndUpcomingEvent, [groupId, groupId]);
+
+        conn.release();
+
+        return result
+
+    } catch (err) {
+        throw new BaseError(status.DB_ERROR);
+    }
+}
+
+export const retrieveTokenNum = async (gUserId) => {
+    try{
+        const conn = await pool.getConnection();
+
+        const [result] = await pool.query(selectTokensByGroupUserId, gUserId);
+
+        conn.release();
+
+        return result[0].token
+
+    } catch (err) {
+        throw new BaseError(status.DB_ERROR);
+    }
+}
+
+export const updateUserToken = async (newToken, gUserId) => {
+    try{
+        const conn = await pool.getConnection();
+
+        const [result] = await pool.query(updateAttendeeToken, [newToken, gUserId]);
 
         conn.release();
 

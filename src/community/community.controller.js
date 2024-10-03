@@ -33,7 +33,7 @@ export const eraseComment = async (req, res, next) => {
 
 export const retrieveCommentList = async (req, res, next) => {
     // 1. 댓글 목록 조회
-    const commentList = await retrieveCommentListService(req.groupUserId, req.params.postId)
+    const commentList = await retrieveCommentListService(req.params.postId)
 
     // 2. 댓글 요소 구조 정리
     const organizedList = commentList.map((comment) => {

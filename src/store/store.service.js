@@ -9,12 +9,12 @@ import {itemResponseDTO, itemsResponseDTO} from "./store.dto.js";
 
 dotenv.config()
 
-export const addNewItem = async (groupId, body) => {
+export const addNewItem = async (groupId, body, imageUrl) => {
     const params = [
         body.name,
         body.price,
         body.category,
-        body.image,
+        imageUrl,
         groupId
     ]
 

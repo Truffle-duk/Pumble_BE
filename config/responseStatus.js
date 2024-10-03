@@ -4,7 +4,6 @@ export const status = {
     //name: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": 400, "message": ""},
     // success
     SUCCESS: {status: StatusCodes.OK, "isSuccess": true, "code": 200, "message": "success!"},
-    NOT_FOUND: {status: StatusCodes.NOT_FOUND, "isSuccess": false, "code": 400, "message": "not found"},
     DB_ERROR: {status: StatusCodes.INTERNAL_SERVER_ERROR, "isSuccess": false, "code": 500, "message": "서버 내부 에러. 관리자에게 문의하세요."},
     ACCESS_DENIED: {status: StatusCodes.FORBIDDEN, "isSuccess": false, "code": 403, "message": "권한이 없습니다."},
     //event
@@ -30,7 +29,7 @@ export const status = {
     // JWT
     AUTHORIZATION_NOT_EXIST: {status: StatusCodes.UNAUTHORIZED, "isSuccess": false, "code": "TOKEN4011", "message": "토큰이 존재하지 않습니다."},
     TOKEN_NOT_EXIST: {status: StatusCodes.UNAUTHORIZED, "isSuccess": false, "code": "TOKEN4012", "message": "토큰이 존재하지 않습니다."},
-    EXPIRED_TOKEN: {status: StatusCodes.INSUFFICIENT_SPACE_ON_RESOURCE, "isSuccess": false, "code": "TOKEN4192", "message": "만료된 토큰입니다."},
+    EXPIRED_TOKEN: {status: StatusCodes.UNAUTHORIZED, "isSuccess": false, "code": "TOKEN4014", "message": "만료된 토큰입니다."},
     INVALID_TOKEN: {status: StatusCodes.UNAUTHORIZED, "isSuccess": false, "code": "TOKEN4013", "message": "잘못된 접근입니다."},
     // community
     NOT_AUTHOR: {status: StatusCodes.UNAUTHORIZED, "isSuccess": false, "code": "COMMUNITY4011", "message": "글 작성자가 아닙니다."},

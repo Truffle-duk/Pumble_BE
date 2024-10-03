@@ -12,6 +12,7 @@ import {storeRouter} from "./src/store/store.route.js";
 import {authRouter} from "./src/auth/auth.route.js";
 import {userRouter} from "./src/user/user.route.js";
 import {communityRouter} from "./src/community/community.route.js";
+import {groupUserRouter} from "./src/groupUser/groupUser.route.js";
 
 const app = express()
 const port = 8080
@@ -37,6 +38,7 @@ app.use(storeRouter)
 app.use(authRouter)
 app.use(userRouter)
 app.use(communityRouter)
+app.use(groupUserRouter)
 
 app.use((req, res, next) => {
     const err = new BaseError(status.NOT_FOUND);

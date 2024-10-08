@@ -38,4 +38,6 @@ export const status = {
     WRONG_REQUEST_TYPE: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "COMMUNITY4003", "message": "잘못된 요청입니다. 글의 타입을 확인해보세요."},
     NO_AUTHORITY: {status: StatusCodes.UNAUTHORIZED, "isSuccess": false, "code": "COMMUNITY4012", "message": "운영자 이상 접근 가능합니다."},
     PAGE_OUT_OF_RANGE: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "COMMUNITY4004", "message": "최대 페이지를 넘었습니다."},
+    // home
+    GROUP_NOT_EXIST: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "HOME4001", "message": "잘못된 초대 코드입니다."},
 }

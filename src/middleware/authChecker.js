@@ -34,6 +34,7 @@ const authChecker = asyncHandler(async (req, res, next) => {
         }
 
         req.userId = payload.id;
+        req.username = payload.name;
         next();
     } else {
         console.log('jwtMiddleware - header.Authorization not exist');

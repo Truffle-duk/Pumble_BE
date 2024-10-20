@@ -4,6 +4,7 @@
 .idea/dictionaries
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
+.idea/dataSources
 
 # 모듈 관련 파일은 포함 (중요)
 !.idea/misc.xml

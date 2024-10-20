@@ -7,8 +7,6 @@ export const createGroup = async (req, res, next) => {
 }
 
 export const joinGroup = async (req, res, next) => {
-    console.log(req.username)
-    console.log(req.userId)
     res.send(response(status.SUCCESS, await joinGroupService(req.username, req.userId, req.body)))
 }
 

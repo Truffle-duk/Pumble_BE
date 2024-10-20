@@ -55,7 +55,7 @@ export const joinGroupService = async (username, userId, body) => {
         const joinGroupResult = await joinGroup(params)
 
         if (joinGroupResult && joinGroupResult.affectedRows === 1) {
-            return joinGroupResult.insertId
+            return {groupId: group.group_id, newGroupUserId: joinGroupResult.insertId}
         } else {
             throw new BaseError(status.INTERNAL_SERVER_ERROR)
         }

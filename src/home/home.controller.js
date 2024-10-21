@@ -17,7 +17,7 @@ export const retrieveJoinedGroup = async (req, res, next) => {
 export const retrieveSelectedGroupInfo = async (req, res, next) => {
     const responseDTO = {
         groupId: req.groupId,
-        groupUserId: req.groupUserId,
+        userId: req.userId,
         groupUserRole: req.groupUserRole
     }
     res.send(response(status.SUCCESS, responseDTO))

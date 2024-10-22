@@ -1,4 +1,4 @@
-import {changeGroupUserProfile, findImageUrlById, withdrawGroupUser} from "./groupUser.model.js";
+import {changeGroupUserProfile, findImageUrlById, findNicknameAndImage, withdrawGroupUser} from "./groupUser.model.js";
 import {status} from "../../config/responseStatus.js";
 import {BaseError} from "../../config/error.js";
 import {imageDeleter} from "../middleware/s3Manager.js";
@@ -41,6 +41,16 @@ export const changeProfileNicknameService = async (gUserId, newName) => {
 
     if (changeProfileNickname.affectedRows === 1) {
         return {updatedAt: new Date()}
+    } else {
+        throw new BaseError(status.DB_ERROR)
+    }
+}
+
+export const getProfileService = async (gUserId) => {
+    const getProfileResult = await findNicknameAndImage(gUserId)
+
+    if (getProfileResult) {
+        return getProfileResult
     } else {
         throw new BaseError(status.DB_ERROR)
     }

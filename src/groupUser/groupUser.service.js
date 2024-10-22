@@ -2,7 +2,7 @@ import {
     changeGroupUserProfile,
     changeGroupUserRole, deleteGroupModel,
     findAllGroupUser, findGroupPasswordById,
-    findImageUrlById, updateGroupPasswordModel,
+    findImageUrlById, findNicknameAndImage, updateGroupPasswordModel,
     withdrawGroupUser
 } from "./groupUser.model.js";
 import {status} from "../../config/responseStatus.js";
@@ -48,6 +48,16 @@ export const changeProfileNicknameService = async (gUserId, newName) => {
 
     if (changeProfileNickname.affectedRows === 1) {
         return {updatedAt: new Date()}
+    } else {
+        throw new BaseError(status.DB_ERROR)
+    }
+}
+
+export const getProfileService = async (gUserId) => {
+    const getProfileResult = await findNicknameAndImage(gUserId)
+
+    if (getProfileResult) {
+        return getProfileResult
     } else {
         throw new BaseError(status.DB_ERROR)
     }

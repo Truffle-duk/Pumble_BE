@@ -1,6 +1,7 @@
 import {response} from "../../config/response.js";
 import {status} from "../../config/responseStatus.js";
 import {
+    getProfileService,
     appointService, changeGroupPasswordService,
     changeProfileImageService,
     changeProfileNicknameService, deleteGroupService, demotionService,
@@ -19,6 +20,10 @@ export const changeProfileImage = async (req, res, next) => {
 
 export const changeProfileNickname = async (req, res, next) => {
     res.send(response(status.SUCCESS, await changeProfileNicknameService(req.groupUserId, req.body.newNickname)))
+}
+
+export const getProfile = async (req, res, next) => {
+    res.send(response(status.SUCCESS, await getProfileService(req.groupUserId)))
 }
 
 export const retrieveAllGroupUser = async (req, res, next) => {

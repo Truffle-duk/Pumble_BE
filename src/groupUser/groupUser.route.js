@@ -6,16 +6,18 @@ import {imageUploader} from "../middleware/s3Manager.js";
 import {
     appoint, changeGroupPassword,
     changeProfileImage,
-    changeProfileNickname, checkPassword, deleteGroup, demotion, driveOut, entrust,
+    changeProfileNickname, checkPassword, deleteGroup, demotion, driveOut, entrust, getProfile,
     retrieveAllGroupUser,
     withdrawGroup
 } from "./groupUser.controller.js";
+
 export const groupUserRouter = express.Router()
 const groupUserBasePath = "/api/group/:groupId"
 
 groupUserRouter.delete(groupUserBasePath, [authChecker, groupUserInfoGetter], asyncHandler(await withdrawGroup))
 groupUserRouter.patch(groupUserBasePath + "/profile/image", [authChecker, groupUserInfoGetter, imageUploader.single('image')], asyncHandler(await changeProfileImage))
 groupUserRouter.patch(groupUserBasePath + '/profile/nickname', [authChecker, groupUserInfoGetter], asyncHandler(await changeProfileNickname))
+groupUserRouter.get(groupUserBasePath + '/profile', [authChecker, groupUserInfoGetter], asyncHandler(await getProfile))
 
 // 모임장 권한 api
 groupUserRouter.get(groupUserBasePath + '/members', [authChecker, groupUserInfoGetter], asyncHandler(await retrieveAllGroupUser))

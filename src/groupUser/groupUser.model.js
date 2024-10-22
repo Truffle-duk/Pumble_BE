@@ -2,6 +2,7 @@ import {pool} from "../../config/database.js";
 import {BaseError} from "../../config/error.js";
 import {status} from "../../config/responseStatus.js";
 import {
+    selectGroupUserNameAndImage,
     deleteGroup,
     deleteGroupUser, selectAllGroupUser, selectGroupPassword,
     selectImageUrl, updateGroupPassword,
@@ -59,6 +60,21 @@ export const findImageUrlById = async (gUserId) => {
 
         return result[0].profile_image;
 
+    } catch (err) {
+        console.log(err)
+        throw new BaseError(status.DB_ERROR);
+    }
+}
+
+export const findNicknameAndImage = async (gUserId) => {
+    try {
+        const conn = await pool.getConnection();
+
+        const [result] = await pool.query(selectGroupUserNameAndImage, gUserId);
+
+        conn.release();
+
+        return result[0];
     } catch (err) {
         console.log(err)
         throw new BaseError(status.DB_ERROR);

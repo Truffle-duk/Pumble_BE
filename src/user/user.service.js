@@ -16,13 +16,13 @@ export const updateUserNicknameService = async (userId, name) => {
     return {newNickname: updatedUser.name, updatedAt: updatedUser.updated_at}
 }
 
-export const retrieveUserNickname = async (userId) => {
+export const retrieveUserNicknameAndEmail = async (userId) => {
     const user = await retrieveUserById(userId)
     if (!user) {
         throw new BaseError(status.USER_NOT_EXIST)
     }
 
-    return {nickname: user.name}
+    return {nickname: user.name, email: user.email}
 }
 
 export const deleteUser = async (userId) => {

@@ -16,6 +16,7 @@ export const status = {
     WRONG_PATH: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": 400, "message": "잘못된 경로입니다."},
     FORBIDDEN: {status: StatusCodes.FORBIDDEN, "isSuccess": false, "code": 403, "message": "권한이 없습니다."},
     LACK_OF_INFO: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": 400, "message": "정보가 부족합니다."},
+    NO_AUTHORITY: {status: StatusCodes.UNAUTHORIZED, "isSuccess": false, "code": 400, "message": "상급 권한이 필요합니다."},
     // auth
     INVALID_EMAIL: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "AUTH4001", "message": "잘못된 이메일 형식입니다."},
     DUPLICATE_EMAIL: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "AUTH4002", "message": "이미 사용중인 이메일입니다."},
@@ -36,6 +37,7 @@ export const status = {
     POST_NOT_EXIST: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "COMMUNITY4001", "message": "해당 글이 존재하지 않습니다."},
     COMMENT_NOT_EXIST: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "COMMUNITY4002", "message": "해당 댓글이 존재하지 않습니다."},
     WRONG_REQUEST_TYPE: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "COMMUNITY4003", "message": "잘못된 요청입니다. 글의 타입을 확인해보세요."},
-    NO_AUTHORITY: {status: StatusCodes.UNAUTHORIZED, "isSuccess": false, "code": "COMMUNITY4012", "message": "운영자 이상 접근 가능합니다."},
     PAGE_OUT_OF_RANGE: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "COMMUNITY4004", "message": "최대 페이지를 넘었습니다."},
+    // home
+    GROUP_NOT_EXIST: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "HOME4001", "message": "잘못된 초대 코드입니다."},
 }

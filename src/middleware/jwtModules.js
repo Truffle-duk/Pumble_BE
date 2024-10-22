@@ -8,6 +8,7 @@ const customJWT = {
     accessSign: async (user) => { //accessToken 발급
         const payload = {
             id: user.user_id,
+            name: user.name
         };
         return jwt.sign(payload, secret, {algorithm: 'HS256', expiresIn: '3h'});
     },
@@ -19,6 +20,7 @@ const customJWT = {
             return {
                 valid: true,
                 id: decode.id,
+                name: decode.name
             }
         } catch (err) {
             return {

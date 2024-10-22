@@ -1,0 +1,1 @@
+export const insertNewReceipt = "INSERT INTO Receipt (group_id, date, url) VALUES (?, ?, ?);";

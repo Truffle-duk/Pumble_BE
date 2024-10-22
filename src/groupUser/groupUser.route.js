@@ -6,7 +6,7 @@ import {imageUploader} from "../middleware/s3Manager.js";
 import {
     appoint, changeGroupPassword,
     changeProfileImage,
-    changeProfileNickname, checkPassword, deleteGroup, demotion, driveOut, entrust,
+    changeProfileNickname, checkPassword, deleteGroup, demotion, driveOut, entrust, getProfile,
     retrieveAllGroupUser,
     withdrawGroup
 } from "./groupUser.controller.js";

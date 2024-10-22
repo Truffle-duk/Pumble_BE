@@ -2,7 +2,7 @@ import {
     changeGroupUserProfile,
     changeGroupUserRole, deleteGroupModel,
     findAllGroupUser, findGroupPasswordById,
-    findImageUrlById, updateGroupPasswordModel,
+    findImageUrlById, findNicknameAndImage, updateGroupPasswordModel,
     withdrawGroupUser
 } from "./groupUser.model.js";
 import {status} from "../../config/responseStatus.js";

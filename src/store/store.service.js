@@ -1,11 +1,13 @@
 import {
-    addItem,
+    addItem, findTokenCount,
     retrieveItemDetails,
     retrieveItemsByCategory,
-    retrieveRecentItems,
+    retrieveRecentItems, updateGoodsCnt,
 } from "./store.model.js";
 import dotenv from "dotenv";
 import {itemResponseDTO, itemsResponseDTO} from "./store.dto.js";
+import {BaseError} from "../../config/error.js";
+import {status} from "../../config/responseStatus.js";
 
 dotenv.config()
 
@@ -39,4 +41,18 @@ export const getItemDetail = async (groupId, itemId) => {
     const getItemResult = await retrieveItemDetails(groupId, itemId)
 
     return itemResponseDTO(getItemResult)
+}
+
+export const updateGoodsCountService = async (body, gUserId) => {
+    const amountHeld = await findTokenCount(gUserId);
+    if (body.price > amountHeld) {
+        throw new BaseError(status.LACK_OF_AMOUNT)
+    }
+
+    const updateResult = await updateGoodsCnt(body.price, gUserId)
+    if (updateResult.changedRows !== 1) {
+        throw new BaseError(status.INTERNAL_SERVER_ERROR)
+    }
+
+    return {updatedAt: new Date()}
 }

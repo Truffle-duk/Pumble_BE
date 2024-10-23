@@ -40,4 +40,6 @@ export const status = {
     PAGE_OUT_OF_RANGE: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "COMMUNITY4004", "message": "최대 페이지를 넘었습니다."},
     // home
     GROUP_NOT_EXIST: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "HOME4001", "message": "잘못된 초대 코드입니다."},
+    //store
+    LACK_OF_AMOUNT: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "STORE4001", "message": "보유 토큰이 부족합니다."},
 }

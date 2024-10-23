@@ -1,6 +1,12 @@
 import {BaseError} from "../../config/error.js";
 import {status} from "../../config/responseStatus.js";
-import {retrieveUserById, retrieveUserNameById, updateUserName, updateUserStateToDeactivate} from "./user.model.js";
+import {
+    retrieveMyGroup,
+    retrieveUserById,
+    retrieveUserNameById,
+    updateUserName,
+    updateUserStateToDeactivate
+} from "./user.model.js";
 import {redisClient} from "../../config/redisConfig.js";
 
 export const updateUserNicknameService = async (userId, name) => {
@@ -39,4 +45,13 @@ export const deleteUser = async (userId) => {
     const updatedUser = await retrieveUserById(userId)
 
     return {status: updatedUser.status, updatedAt: updatedUser.updated_at}
+}
+
+export const getMyGroupService = async (userId) => {
+    const user = await retrieveUserById(userId)
+    if (!user) {
+        throw new BaseError(status.USER_NOT_EXIST)
+    }
+
+    return await retrieveMyGroup(userId)
 }

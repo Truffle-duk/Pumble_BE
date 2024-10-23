@@ -4,7 +4,7 @@ import {
     addNewItem,
     getItemDetail,
     getItemsByCategory,
-    getRecentItems,
+    getRecentItems, updateGoodsCountService,
 } from "./store.service.js";
 import {BaseError} from "../../config/error.js";
 
@@ -24,4 +24,8 @@ export const selectItemsByCategoryCtrl = async (req, res, next) => {
 
 export const selectItemCtrl = async (req, res, next) => {
     res.send(response(status.SUCCESS, await getItemDetail(req.groupId, req.params.itemId)))
+}
+
+export const updateGoodsCount = async (req, res, next) => {
+    res.send(response(status.SUCCESS, await updateGoodsCountService(req.body, req.groupUserId)))
 }

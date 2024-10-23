@@ -21,7 +21,6 @@ export const drawout = async (req, res, next) => {
 
 export const getMyGroup = async (req, res, next) => {
     const groupList = await getMyGroupService(req.userId)
-    console.log(groupList)
 
     const {ownGroup, joinedGroup} = groupList.reduce(
         (acc, num) => {

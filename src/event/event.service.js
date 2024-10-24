@@ -128,3 +128,13 @@ const checkAttendService = async (eventId, gUserId) => {
         throw new BaseError(status.INTERNAL_SERVER_ERROR)
     }
 }
+
+export const getEventByIdService = async (eventId) => {
+    const targetEvent = await retrieveTargetEvent(eventId)
+
+    if (targetEvent) {
+        return {title: targetEvent.title}
+    } else {
+        throw new BaseError(status.INTERNAL_SERVER_ERROR)
+    }
+}

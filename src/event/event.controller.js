@@ -2,7 +2,7 @@ import {response} from "../../config/response.js";
 import {status} from "../../config/responseStatus.js";
 import {
     createEvent,
-    getAllEvents,
+    getAllEvents, getEventByIdService,
     getMonthlyEvents,
     getRecentlyEndAndUpcoming,
     joinEvent
@@ -30,4 +30,8 @@ export const searchMonthlyEvents = async (req, res, next) => {
 
 export const recentlyEndAndUpcoming = async (req, res, next) => {
     res.send(response(status.SUCCESS, await getRecentlyEndAndUpcoming(req.groupId)))
+}
+
+export const getEventById = async (req, res, next) => {
+    res.send(response(status.SUCCESS, await getEventByIdService(req.query.id)))
 }

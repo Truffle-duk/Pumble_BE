@@ -2,7 +2,7 @@ import express from "express";
 import asyncHandler from "express-async-handler"
 import {
     eventCreate,
-    eventJoin,
+    eventJoin, getEventById,
     recentlyEndAndUpcoming,
     searchAllEvents,
     searchMonthlyEvents
@@ -22,3 +22,5 @@ eventRouter.get(eventBasePath + '/list/all', [authChecker, groupUserInfoGetter],
 eventRouter.get(eventBasePath + '/list/month', [authChecker, groupUserInfoGetter], asyncHandler(await searchMonthlyEvents)) //이번달 일정 조회
 
 eventRouter.get(eventBasePath + '/lastAndNext', [authChecker, groupUserInfoGetter], asyncHandler(await recentlyEndAndUpcoming)) //지난, 최근 일정 조회(각 1개)
+
+eventRouter.get(eventBasePath, [authChecker, groupUserInfoGetter], asyncHandler(await getEventById))

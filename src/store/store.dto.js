@@ -5,6 +5,7 @@ export const itemsResponseDTO = (itemList) => {
             itemId: itemList[i].item_id,
             name: itemList[i].name,
             price: itemList[i].price,
+            category: itemList[i].category,
             image: itemList[i].image
         });
     }
@@ -16,7 +17,7 @@ export const itemResponseDTO = (item) => {
         itemId: item.item_id,
         name: item.name,
         price: item.price,
-        type: item.type,
+        type: item.category,
         image: item.image
     };
 }

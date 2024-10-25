@@ -17,6 +17,7 @@ export const itemResponseDTO = (item) => {
         itemId: item.item_id,
         name: item.name,
         price: item.price,
+        description: item.description,
         type: item.category,
         image: item.image
     };

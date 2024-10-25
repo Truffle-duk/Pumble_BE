@@ -16,6 +16,7 @@ export const addNewItem = async (groupId, body, imageUrl) => {
         body.name,
         body.price,
         body.category,
+        body.description,
         imageUrl,
         groupId
     ]

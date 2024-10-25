@@ -12,34 +12,9 @@ import {
     updateUserToken
 } from "./event.model.js";
 import {eventResponseDTO, lastAndNextResponseDTO, monthlyEventResponseDTO} from "./event.dto.js";
-import {ethers} from "ethers";
 import dotenv from "dotenv";
 
 dotenv.config()
-
-//관리자 페이지 구현 시 삭제
-const provider = new ethers.JsonRpcProvider('http://127.0.0.1:7545')
-const privateKey = "0xfe6f622f37ad5ed4d3da49682069f27976afe19d9b53b98189a16f74ee3b151b";
-const wallet = new ethers.Wallet(privateKey, provider)
-const eventContractAddress = "0x619e6e3BB15FEA84fA6ADCF86E834538906F3259"
-const eventContractABI = ["function createEvent(uint256 _eventId, uint256 _maxPpl, uint256 _reward)"]
-const eventContract = new ethers.Contract(eventContractAddress, eventContractABI, wallet)
-
-const createEventBlockchain = async (eventId, maxPeople, reward) => {
-    try {
-        const txResponse = await eventContract.createEvent(eventId, maxPeople, reward)
-        console.log(`Transaction hash: ${txResponse.hash}`);
-
-        // 트랜잭션 영수증 대기
-        const receipt = await txResponse.wait();
-        console.log(`Transaction confirmed in block: ${receipt.blockNumber}`);
-        console.log(receipt)
-    } catch (e) {
-        console.log(e)
-        console.log('error here')
-    }
-}
-
 
 export const createEvent = async (groupId, body) => {
     const params = [
@@ -55,8 +30,6 @@ export const createEvent = async (groupId, body) => {
     ]
 
     const insertNewEventResult = await addEvent(params)
-
-    await createEventBlockchain(insertNewEventResult, body.maxPeople, body.reward)
 
     return {eventId: insertNewEventResult}
 }

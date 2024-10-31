@@ -11,4 +11,4 @@ export const updateGroupUserRoleToMember = "UPDATE GroupUser SET role = 'member'
 export const updateGroupUserRoleToLeader = "UPDATE GroupUser SET role = 'leader' WHERE group_user_id = ?;";
 export const selectGroupPassword = "SELECT password FROM `Group` WHERE group_id=?;";
 export const deleteGroup = "DELETE FROM `Group` WHERE group_id = ?;";
-export const updateGroupPassword = "UPDATE `GROUP` SET password = ? WHERE group_id = ?;";
+export const updateGroupPassword = "UPDATE `Group` SET password=? WHERE group_id=?;";

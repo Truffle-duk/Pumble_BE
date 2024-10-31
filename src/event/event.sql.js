@@ -12,3 +12,5 @@ export const selectRecentlyEndAndUpcomingEvent = "(SELECT * FROM Event WHERE gro
     "UNION (SELECT * FROM Event WHERE group_id=? AND status='done' AND scheduled_date_end<now() ORDER BY scheduled_date_end DESC LIMIT 1);";
 export const selectTokensByGroupUserId = "SELECT token FROM GroupUser WHERE group_user_id=?;";
 export const updateAttendeeToken = "UPDATE GroupUser SET token=? WHERE group_user_id=?;";
+export const updateStatusToDone = "UPDATE Event SET status='done' WHERE event_id=?;";
+export const deleteEvent = "DELETE FROM Event WHERE event_id=?;";

@@ -2,7 +2,10 @@ import {response} from "../../config/response.js";
 import {status} from "../../config/responseStatus.js";
 import {
     createEvent,
-    getAllEvents, getEventByIdService,
+    getEventByIdService,
+    cancelEventService,
+    finishEventService,
+    getAllEvents,
     getMonthlyEvents,
     getRecentlyEndAndUpcoming,
     joinEvent
@@ -34,4 +37,20 @@ export const recentlyEndAndUpcoming = async (req, res, next) => {
 
 export const getEventById = async (req, res, next) => {
     res.send(response(status.SUCCESS, await getEventByIdService(req.query.id)))
+}
+
+export const finishEvent = async (req, res, next) => {
+    if (req.groupUserRole === 'member') {
+        throw new BaseError(status.NO_AUTHORITY)
+    }
+
+    res.send(response(status.SUCCESS, await finishEventService(req.params.eventId)))
+}
+
+export const cancelEvent = async (req, res, next) => {
+    if (req.groupUserRole === 'member') {
+        throw new BaseError(status.NO_AUTHORITY)
+    }
+
+    res.send(response(status.SUCCESS, await cancelEventService(req.params.eventId)))
 }

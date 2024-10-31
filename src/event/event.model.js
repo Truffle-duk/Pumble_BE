@@ -9,7 +9,7 @@ import {
     insertAttendee,
     checkDuplicateAttendee,
     updateAttendeeNum,
-    selectTargetEvent, selectTokensByGroupUserId, updateAttendeeToken
+    selectTargetEvent, selectTokensByGroupUserId, updateAttendeeToken, updateStatusToDone, deleteEvent
 } from "./event.sql.js";
 
 export const addEvent = async (data) => {
@@ -138,6 +138,36 @@ export const updateUserToken = async (newToken, gUserId) => {
         const conn = await pool.getConnection();
 
         const [result] = await pool.query(updateAttendeeToken, [newToken, gUserId]);
+
+        conn.release();
+
+        return result
+
+    } catch (err) {
+        throw new BaseError(status.DB_ERROR);
+    }
+}
+
+export const updateEventStatus = async (eventId) => {
+    try{
+        const conn = await pool.getConnection();
+
+        const [result] = await pool.query(updateStatusToDone, eventId);
+
+        conn.release();
+
+        return result
+
+    } catch (err) {
+        throw new BaseError(status.DB_ERROR);
+    }
+}
+
+export const deleteEventById = async (eventId) => {
+    try{
+        const conn = await pool.getConnection();
+
+        const [result] = await pool.query(deleteEvent, eventId);
 
         conn.release();
 

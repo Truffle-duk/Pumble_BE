@@ -3,12 +3,12 @@ import {status} from "../../config/responseStatus.js";
 import {
     addAttendee,
     addEvent,
-    checkAttendeeExist,
+    checkAttendeeExist, deleteEventById,
     retrieveAllEvents,
     retrieveMonthlyEvents,
     retrieveRecentlyEndedAndUpcoming,
     retrieveTargetEvent,
-    retrieveTokenNum,
+    retrieveTokenNum, updateEventStatus,
     updateUserToken
 } from "./event.model.js";
 import {eventResponseDTO, lastAndNextResponseDTO, monthlyEventResponseDTO} from "./event.dto.js";
@@ -107,6 +107,26 @@ export const getEventByIdService = async (eventId) => {
 
     if (targetEvent) {
         return {title: targetEvent.title}
+    } else {
+        throw new BaseError(status.INTERNAL_SERVER_ERROR)
+    }
+}
+
+export const finishEventService = async (eventId) => {
+    const finishEventResult = await updateEventStatus(eventId)
+
+    if (finishEventResult && finishEventResult.affectedRows === 1) {
+        return {updatedAt: new Date()}
+    } else {
+        throw new BaseError(status.INTERNAL_SERVER_ERROR)
+    }
+}
+
+export const cancelEventService = async (eventId) => {
+    const cancelEventService = await deleteEventById(eventId)
+
+    if (cancelEventService && cancelEventService.affectedRows === 1) {
+        return {deletedAt: new Date()}
     } else {
         throw new BaseError(status.INTERNAL_SERVER_ERROR)
     }

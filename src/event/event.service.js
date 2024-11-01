@@ -106,7 +106,8 @@ export const getEventByIdService = async (eventId) => {
     const targetEvent = await retrieveTargetEvent(eventId)
 
     if (targetEvent) {
-        return {title: targetEvent.title}
+        const remainToken = targetEvent.num_of_token * (targetEvent.max_person - targetEvent.current_person)
+        return {title: targetEvent.title, remainToken: remainToken}
     } else {
         throw new BaseError(status.INTERNAL_SERVER_ERROR)
     }

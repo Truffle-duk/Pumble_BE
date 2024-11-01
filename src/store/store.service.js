@@ -1,5 +1,5 @@
 import {
-    addItem, findTokenCount,
+    addItem, findNicknameByUserId, findTokenCount,
     retrieveItemDetails,
     retrieveItemsByCategory,
     retrieveRecentItems, updateGoodsCnt,
@@ -56,4 +56,14 @@ export const updateGoodsCountService = async (body, gUserId) => {
     }
 
     return {updatedAt: new Date()}
+}
+
+export const getBuyerNicknameService = async (groupUserId, groupId) => {
+    const buyer = await findNicknameByUserId(groupUserId, groupId)
+
+    if (buyer) {
+        return buyer
+    } else {
+        throw new BaseError(status.NOT_GROUP_USER)
+    }
 }

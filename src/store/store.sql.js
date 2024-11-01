@@ -4,3 +4,4 @@ export const selectItemsByCategory = "SELECT * FROM Item WHERE status='onsale' A
 export const selectItemDetails = "SELECT * FROM Item WHERE group_id=? and item_id=?;";
 export const updateGroupUser = "UPDATE GroupUser SET goods_count = goods_count + 1, token = token - ? WHERE group_user_id = ?;";
 export const selectToken = "SELECT token FROM GroupUser WHERE group_user_id = ?;";
+export const selectNicknameByUserId = "SELECT nickname FROM GroupUser WHERE group_user_id = ? AND group_id = ?;";

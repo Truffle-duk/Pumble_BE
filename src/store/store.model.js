@@ -5,7 +5,7 @@ import {
     insertNewItem,
     select4ItemsRecent,
     selectItemsByCategory,
-    selectItemDetails, updateGroupUser, selectToken,
+    selectItemDetails, updateGroupUser, selectToken, selectNicknameByUserId,
 } from "./store.sql.js";
 
 export const addItem = async (data) => {
@@ -94,6 +94,22 @@ export const findTokenCount = async (gUserId) => {
         conn.release();
 
         return result[0].token;
+
+    } catch (err) {
+        console.log(err)
+        throw new BaseError(status.INTERNAL_SERVER_ERROR);
+    }
+}
+
+export const findNicknameByUserId = async (gUserId, groupId) => {
+    try{
+        const conn = await pool.getConnection();
+
+        const [result] = await pool.query(selectNicknameByUserId, [gUserId, groupId]);
+
+        conn.release();
+
+        return result[0];
 
     } catch (err) {
         console.log(err)

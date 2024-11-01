@@ -1,6 +1,7 @@
 import express from "express";
 import asyncHandler from "express-async-handler"
 import {
+    getBuyerNickname,
     itemCreate, selectItemCtrl, selectItemsByCategoryCtrl, selectRecentItems, updateGoodsCount
 } from "./store.controller.js";
 import authChecker from "../middleware/authChecker.js";
@@ -15,3 +16,4 @@ storeRouter.get(storeBasePath + '/recent', [authChecker, groupUserInfoGetter], a
 storeRouter.get(storeBasePath + '/list', [authChecker, groupUserInfoGetter], asyncHandler(await selectItemsByCategoryCtrl)) //카테고리별 상품 조회
 storeRouter.get(storeBasePath + '/item/:itemId', [authChecker, groupUserInfoGetter], asyncHandler(await selectItemCtrl)) //상품 상세 조회
 storeRouter.patch(storeBasePath + '/purchase', [authChecker, groupUserInfoGetter], asyncHandler(await updateGoodsCount)) //상품 구매(토큰, 구매 개수 갱신)
+storeRouter.get(storeBasePath + '/buyer/:buyerId', [authChecker, groupUserInfoGetter], asyncHandler(await getBuyerNickname))

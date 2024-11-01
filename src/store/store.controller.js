@@ -1,7 +1,7 @@
 import {response} from "../../config/response.js";
 import {status} from "../../config/responseStatus.js";
 import {
-    addNewItem,
+    addNewItem, getBuyerNicknameService,
     getItemDetail,
     getItemsByCategory,
     getRecentItems, updateGoodsCountService,
@@ -28,4 +28,12 @@ export const selectItemCtrl = async (req, res, next) => {
 
 export const updateGoodsCount = async (req, res, next) => {
     res.send(response(status.SUCCESS, await updateGoodsCountService(req.body, req.groupUserId)))
+}
+
+export const getBuyerNickname = async (req, res, next) => {
+    if (req.groupUserRole === 'member') {
+        throw new BaseError(status.NO_AUTHORITY)
+    }
+
+    res.send(response(status.SUCCESS, await getBuyerNicknameService(req.params.buyerId, req.groupId)))
 }

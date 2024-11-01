@@ -42,4 +42,5 @@ export const status = {
     GROUP_NOT_EXIST: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "HOME4001", "message": "잘못된 초대 코드입니다."},
     //store
     LACK_OF_AMOUNT: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "STORE4001", "message": "보유 토큰이 부족합니다."},
+    NOT_GROUP_USER: {status: StatusCodes.BAD_REQUEST, "isSuccess": false, "code": "STORE4002", "message": "잘못된 유저 아이디 입니다."},
 }

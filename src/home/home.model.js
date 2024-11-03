@@ -5,7 +5,7 @@ import {
     insertNewGroup, insertNewGroupOwner, insertNewGroupUser,
     selectGroupByCode,
     selectGroupCode,
-    selectGroupInfoByUserId
+    selectGroupInfoByUserId, selectGroupNameById
 } from "./home.sql.js";
 
 export const createGroup = async (params) => {
@@ -93,6 +93,22 @@ export const createNewGroupOwner = async (params) => {
         const conn = await pool.getConnection();
 
         const [result] = await pool.query(insertNewGroupOwner, params);
+
+        conn.release();
+
+        return result;
+
+    } catch (err) {
+        console.log(err)
+        throw new BaseError(status.INTERNAL_SERVER_ERROR);
+    }
+}
+
+export const findGroupName = async (groupId) => {
+    try{
+        const conn = await pool.getConnection();
+
+        const [result] = await pool.query(selectGroupNameById, groupId);
 
         conn.release();
 

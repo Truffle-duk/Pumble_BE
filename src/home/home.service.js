@@ -4,7 +4,7 @@ import {
     createGroup,
     createNewGroupOwner,
     findDuplicateCode,
-    findGroupByCode,
+    findGroupByCode, findGroupName,
     findJoinedGroups,
     joinGroup
 } from "./home.model.js";
@@ -67,6 +67,16 @@ export const joinGroupService = async (username, userId, body) => {
 
 export const retrieveJoinedGroupsService = async (userId) => {
     const retrieveJoinedGroupResult = await findJoinedGroups(userId)
+
+    if (retrieveJoinedGroupResult) {
+        return retrieveJoinedGroupResult[0]
+    } else {
+        throw new BaseError(status.INTERNAL_SERVER_ERROR)
+    }
+}
+
+export const retrieveGroupName = async (groupId) => {
+    const retrieveJoinedGroupResult = await findGroupName(groupId)
 
     if (retrieveJoinedGroupResult) {
         return retrieveJoinedGroupResult[0]

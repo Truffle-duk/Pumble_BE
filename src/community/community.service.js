@@ -8,7 +8,7 @@ import {
     retrieveCommentList,
     retrievePost, retrievePostCount, retrievePostList
 } from "./community.model.js";
-import {sendPushNotification} from "../../config/fcmConfig.js";
+//import {sendPushNotification} from "../../config/fcmConfig.js";
 import {addNewNotification} from "../notification/notification.service.js";
 
 export const uploadPostService = async (groupId, groupUserId, body) => {

@@ -6,7 +6,7 @@ import {
     selectUserById,
     selectUserNameById,
     deactiveUserById,
-    selectMyGroupById
+    selectMyGroupById, updateFCMToken
 } from "./user.sql.js";
 
 export const updateUserName = async (params) => {
@@ -80,6 +80,21 @@ export const retrieveMyGroup = async (userId) => {
     try{
         const conn = await pool.getConnection();
         const [result] = await pool.query(selectMyGroupById, userId);
+
+        conn.release();
+
+        return result;
+
+    } catch (err) {
+        console.log(err)
+        throw new BaseError(status.INTERNAL_SERVER_ERROR);
+    }
+}
+
+export const updateFcmToken = async (userId, token) => {
+    try{
+        const conn = await pool.getConnection();
+        const [result] = await pool.query(updateFCMToken, [token, userId]);
 
         conn.release();
 

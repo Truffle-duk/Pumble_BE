@@ -1,7 +1,7 @@
 import {response} from "../../config/response.js";
 import {status} from "../../config/responseStatus.js";
-import {BaseError} from "../../config/error.js";
 import {
+    changeFcmTokenService,
     deleteUser, getMyGroupService,
     retrieveUserNicknameAndEmail,
     updateUserNicknameService
@@ -39,4 +39,8 @@ export const getMyGroup = async (req, res, next) => {
     }
 
     res.send(response(status.SUCCESS, responseDTO));
+}
+
+export const changeFcmToken = async (req, res, next) => {
+    res.send(response(status.SUCCESS, await changeFcmTokenService(req.userId, req.body)));
 }

@@ -20,7 +20,12 @@ export const eventCreate = async (req, res, next) => {
     res.send(response(status.SUCCESS, await createEvent(req.groupId, req.body)))
 }
 export const eventJoin = async (req, res, next) => {
-    res.send(response(status.SUCCESS, await joinEvent(req.groupUserId, req.params.eventId, req.body)))
+    const attendeeId = await joinEvent(req.groupUserId, req.params.eventId, req.body)
+    if (attendeeId.attendeeId) {
+        res.send(response(status.SUCCESS, { groupUserId: req.groupUserId }))
+    } else {
+        throw new BaseError(status.INTERNAL_SERVER_ERROR)
+    }
 }
 
 export const searchAllEvents = async (req, res, next) => {

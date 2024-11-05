@@ -3,8 +3,7 @@ import dotenv from 'dotenv'
 import {addNewNotification, retrieveFCMToken} from "../src/notification/notification.service.js";
 dotenv.config()
 
-const serviceAccountKey = process.env.GOOGLE_APPLICATION_CREDENTIALS
-;
+const serviceAccountKey = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS.replace(/\\\\n/g, "\\t").replace(/\\n/g, "\n").replace(/\\"/g, "\"").replace(/\\t/g, "\\n"))
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccountKey),

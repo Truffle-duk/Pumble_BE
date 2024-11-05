@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 import {addNewNotification, retrieveFCMToken} from "../src/notification/notification.service.js";
 dotenv.config()
 
-const serviceAccountKey = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS.replace(/\\\\n/g, "\\t").replace(/\\n/g, "\n").replace(/\\"/g, "\"").replace(/\\t/g, "\\n"))
+/*const serviceAccountKey = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS.replace(/\\\\n/g, "\\t").replace(/\\n/g, "\n").replace(/\\"/g, "\"").replace(/\\t/g, "\\n"))
 
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccountKey),
@@ -39,7 +39,7 @@ export async function sendPushNotification(title, body, data) {
         .catch(error => {
             console.error('Error sending message:', error);
         });
-}
+}*/
 
 // 예시: FCM 토큰과 알림 내용을 넣어 호출
 //sendPushNotification(fcmToken, '알림 제목', '알림 내용');

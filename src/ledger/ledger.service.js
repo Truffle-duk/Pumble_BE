@@ -1,7 +1,7 @@
 import {BaseError} from "../../config/error.js";
 import {status} from "../../config/responseStatus.js";
 import {createNewReceipt} from "./ledger.model.js";
-import {sendPushNotification} from "../../config/fcmConfig.js";
+//import {sendPushNotification} from "../../config/fcmConfig.js";
 import {addNewNotification} from "../notification/notification.service.js";
 
 export const addNewReceiptService = async (groupId, body, url) => {

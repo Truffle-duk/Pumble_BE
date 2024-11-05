@@ -3,7 +3,7 @@ import {status} from "../../config/responseStatus.js";
 import {
     retrieveMyGroup,
     retrieveUserById,
-    retrieveUserNameById,
+    retrieveUserNameById, updateFcmToken,
     updateUserName,
     updateUserStateToDeactivate
 } from "./user.model.js";
@@ -54,4 +54,14 @@ export const getMyGroupService = async (userId) => {
     }
 
     return await retrieveMyGroup(userId)
+}
+
+export const changeFcmTokenService = async (userId, body) => {
+    const changeTokenResult = await updateFcmToken(userId, body.token)
+
+    if (changeTokenResult.changedRows !== 1) {
+        throw new BaseError(status.INTERNAL_SERVER_ERROR)
+    }
+
+    return { updatedAt: new Date() }
 }

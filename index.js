@@ -15,6 +15,9 @@ import {communityRouter} from "./src/community/community.route.js";
 import {groupUserRouter} from "./src/groupUser/groupUser.route.js";
 import {homeRouter} from "./src/home/home.route.js";
 import {ledgerRouter} from "./src/ledger/ledger.route.js";
+import dotenv from 'dotenv'
+import {notificationRouter} from "./src/notification/notification.route.js";
+dotenv.config()
 
 const app = express()
 const port = 8080
@@ -43,6 +46,7 @@ app.use(communityRouter)
 app.use(groupUserRouter)
 app.use(homeRouter)
 app.use(ledgerRouter)
+app.use(notificationRouter)
 
 app.use((req, res, next) => {
     const err = new BaseError(status.NOT_FOUND);

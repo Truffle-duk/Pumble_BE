@@ -100,7 +100,7 @@ export const uploadNoticeService = async (groupId, groupUserId, body) => {
             groupId: groupId.toString()
         }
         await sendPushNotification('🚨새로운 공지가 등록되었어요!', body.title, notificationData)
-        //await addNewNotification('notice', uploadNewPostResult.insertId, groupId)
+        await addNewNotification('notice', uploadNewPostResult.insertId, groupId, body.title)
         return uploadNewPostResult.insertId
     } else {
         throw new BaseError(status.INTERNAL_SERVER_ERROR)

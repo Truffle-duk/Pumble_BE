@@ -59,9 +59,10 @@ export const getMyGroupService = async (userId) => {
 export const changeFcmTokenService = async (userId, body) => {
     const changeTokenResult = await updateFcmToken(userId, body.token)
 
-    if (changeTokenResult.changedRows !== 1) {
+    if (!changeTokenResult) {
         throw new BaseError(status.INTERNAL_SERVER_ERROR)
     }
 
+    // 토큰이 변하지 않는 경우도 있으므로 affectedRows를 검사하지 않고 바로 리턴
     return { updatedAt: new Date() }
 }

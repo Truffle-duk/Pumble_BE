@@ -22,18 +22,6 @@ export async function sendPushNotification(title, body, data) {
 
     await admin.messaging().sendEachForMulticast(message)
         .then(_ => {
-
-            let noticeId
-            if (data.type === 'notice') {
-                noticeId = data.id
-            } else if (data.type === 'receipt') {
-                noticeId = null
-            }
-
-            addNewNotification(data.type, noticeId, Number(data.groupId))
-                .then(_ => {
-                    console.log('Successfully add notification')
-                })
             console.log('Successfully sent notifee');
         })
         .catch(error => {

@@ -1,12 +1,12 @@
 import admin from 'firebase-admin';
 import dotenv from 'dotenv'
 import {addNewNotification, retrieveFCMToken} from "../src/notification/notification.service.js";
+import firebaseKey from '../config/firebase.json' assert {type: "json"}
 dotenv.config()
 
-/*const serviceAccountKey = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS.replace(/\\\\n/g, "\\t").replace(/\\n/g, "\n").replace(/\\"/g, "\"").replace(/\\t/g, "\\n"))
 
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccountKey),
+    credential: admin.credential.cert(firebaseKey),
 });
 
 export async function sendPushNotification(title, body, data) {
@@ -39,7 +39,4 @@ export async function sendPushNotification(title, body, data) {
         .catch(error => {
             console.error('Error sending message:', error);
         });
-}*/
-
-// 예시: FCM 토큰과 알림 내용을 넣어 호출
-//sendPushNotification(fcmToken, '알림 제목', '알림 내용');
+}

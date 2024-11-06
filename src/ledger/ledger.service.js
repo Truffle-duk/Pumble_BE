@@ -10,7 +10,7 @@ export const addNewReceiptService = async (groupId, body, url) => {
 
     if (createNewReceiptResult && createNewReceiptResult.affectedRows === 1) {
         await sendPushNotification('🧾새로운 영수증이 등록됐어요!', `${body.date} 거래 내역을 확인해보세요.`, { type: 'receipt', id: '', groupId: groupId.toString() })
-        //await addNewNotification('receipt', null, groupId)
+        await addNewNotification('receipt', null, groupId, body.date)
         return 1
     } else {
         throw new BaseError(status.DB_ERROR)

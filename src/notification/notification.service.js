@@ -3,8 +3,8 @@ import {status} from "../../config/responseStatus.js";
 import {insertNotification, selectGroupUserToken, selectNotifications} from "./notification.model.js";
 
 // 새로운 알림 추가
-export const addNewNotification = async (type, noticeId, groupId) => {
-    const params = [type, noticeId, groupId]
+export const addNewNotification = async (type, noticeId, groupId, content) => {
+    const params = [type, noticeId, groupId, content]
     const createNewNotificationResult = await insertNotification(params)
 
     if (createNewNotificationResult && createNewNotificationResult.affectedRows === 1) {

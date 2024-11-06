@@ -13,6 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Create firebase.json
+        run: |
+          echo "${{ secrets.GOOGLE_CREDENTIAL }}" | base64 -d > ./config/firebase.json
+
       - name: Login to Docker hub
         uses: docker/login-action@v2
         with:

@@ -12,3 +12,4 @@
 !.idea/libraries/
 node_modules/*
 .env
+./config/firebase.json

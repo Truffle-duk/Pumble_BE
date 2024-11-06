@@ -108,13 +108,10 @@ export const uploadNoticeService = async (groupId, groupUserId, body) => {
 }
 
 export const eraseNoticeService = async (groupUserId, noticeId) => {
-    // 1. 작성자 확인
+    // 1. 공지 존재 여부 확인
     const requestNotice = await retrievePost(noticeId)
     if (!requestNotice) {
         throw new BaseError(status.POST_NOT_EXIST)
-    }
-    if (requestNotice.group_user_id !== groupUserId) {
-        throw new BaseError(status.NOT_AUTHOR)
     }
 
     // 2. 삭제
